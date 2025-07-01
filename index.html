@@ -19,6 +19,20 @@
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
         }
+        .hero-section {
+            background-image: url('https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?q=80&w=2070&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(2, 6, 23, 0.8); /* Darker overlay for better text contrast */
+        }
         .section-reveal {
             opacity: 0;
             transform: translateY(30px);
@@ -50,6 +64,9 @@
             margin-top: 1rem;
             border-radius: 0.25rem;
             font-style: italic;
+            font-size: 0.875rem;
+            line-height: 1.5;
+            color: #cbd5e1;
         }
         .loader {
             border: 4px solid #334155;
@@ -64,6 +81,42 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+        /* Custom Modal for alerts */
+        .custom-alert-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+        .custom-alert-modal.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        .custom-alert-content {
+            background-color: #0f172a;
+            padding: 2rem;
+            border-radius: 0.5rem;
+            border: 1px solid #1e293b;
+            text-align: center;
+            color: #d1d5db;
+        }
+        .custom-alert-button {
+            margin-top: 1rem;
+            background-color: #38bdf8;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body class="antialiased">
@@ -77,6 +130,7 @@
                     <a href="#about" class="text-sm font-semibold text-gray-300 hover:text-sky-400 transition-colors">About</a>
                     <a href="#skills" class="text-sm font-semibold text-gray-300 hover:text-sky-400 transition-colors">Skills</a>
                     <a href="#experience" class="text-sm font-semibold text-gray-300 hover:text-sky-400 transition-colors">Experience</a>
+                    <a href="#rewards" class="text-sm font-semibold text-gray-300 hover:text-sky-400 transition-colors">Rewards</a>
                     <a href="#education" class="text-sm font-semibold text-gray-300 hover:text-sky-400 transition-colors">Education</a>
                     <a href="#projects" class="text-sm font-semibold text-gray-300 hover:text-sky-400 transition-colors">Projects</a>
                     <a href="#contact" class="text-sm font-semibold text-gray-300 hover:text-sky-400 transition-colors">Contact</a>
@@ -87,11 +141,14 @@
 
     <main>
         <!-- Hero Section -->
-        <section id="home" class="py-16 md:py-24">
-            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <section id="home" class="hero-section py-16 md:py-24">
+            <div class="hero-overlay"></div>
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 <div class="grid md:grid-cols-12 gap-8 items-center">
                     <div class="md:col-span-4 lg:col-span-3 text-center md:text-left">
-                        <img src="images/about-me.png" alt="Manoj Kumar" class="w-48 h-48 aspect-square rounded-full object-cover mx-auto shadow-2xl border-4 border-slate-800">
+                        <img src="images/about-me.png" 
+                             onerror="this.onerror=null;this.src='https://placehold.co/200x200/0f172a/d1d5db?text=MK';"
+                             alt="Manoj Kumar" class="w-48 h-48 aspect-square rounded-full object-cover mx-auto shadow-2xl border-4 border-slate-800">
                     </div>
                     <div class="md:col-span-8 lg:col-span-9 text-center md:text-left">
                         <h1 class="text-4xl md:text-6xl font-extrabold text-white">
@@ -100,11 +157,11 @@
                         <p class="mt-2 text-xl md:text-2xl font-semibold accent-text">
                             Azure Data Engineer
                         </p>
-                        <p class="mt-4 text-lg text-gray-400 max-w-2xl">
+                        <p class="mt-4 text-lg text-gray-300 max-w-2xl">
                             I engineer intelligent data solutions on the Azure cloud, transforming complex datasets into strategic assets that drive automation and business growth.
                         </p>
                          <div class="mt-6 flex justify-center md:justify-start space-x-4">
-                            <a href="https://1drv.ms/w/s!AlIFnmMIGqnngUU3ixsi0HxW8Fm1" class="bg-sky-500 text-white font-bold px-6 py-2.5 rounded-md hover:bg-sky-600 transition-colors shadow-lg">Download Resume</a>
+                            <a href="https://1drv.ms/w/s!AlIFnmMIGqnngUU3ixsi0HxW8Fm1" target="_blank" class="bg-sky-500 text-white font-bold px-6 py-2.5 rounded-md hover:bg-sky-600 transition-colors shadow-lg">Download Resume</a>
                             <a href="#contact" class="bg-slate-700 text-white font-bold px-6 py-2.5 rounded-md hover:bg-slate-600 transition-colors">Contact Me</a>
                         </div>
                     </div>
@@ -155,6 +212,10 @@
              <div class="container mx-auto px-4 sm:px-6 lg:px-8">
                  <div class="text-center mb-10">
                     <h2 class="text-3xl font-bold text-white">Professional Certifications</h2>
+                    <div class="w-16 h-1 accent-bg mx-auto mt-3 mb-4"></div>
+                    <a href="https://github.com/ManojKumar-DataTech" target="_blank" rel="noopener noreferrer" class="inline-block bg-slate-700 text-white font-semibold px-5 py-2 rounded-md hover:bg-slate-600 transition-colors text-sm shadow-lg">
+                        View Certifications on GitHub
+                    </a>
                 </div>
                 <div class="flex flex-wrap justify-center gap-6">
                     <div class="card p-5 rounded-lg text-center">
@@ -213,6 +274,35 @@
                 </div>
             </div>
         </section>
+        <!-- Rewards and Recognition Section -->
+        <section id="rewards" class="py-16 bg-slate-900/50 section-reveal">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-10">
+                    <h2 class="text-3xl font-bold text-white">Rewards & Recognition</h2>
+                    <div class="w-16 h-1 accent-bg mx-auto mt-3 mb-4"></div>
+                    <a href="https://github.com/ManojKumar-DataTech" target="_blank" rel="noopener noreferrer" class="inline-block bg-slate-700 text-white font-semibold px-5 py-2 rounded-md hover:bg-slate-600 transition-colors text-sm shadow-lg">
+                        View Rewards on GitHub
+                    </a>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="card p-5 rounded-lg text-center flex flex-col">
+                        <h3 class="text-lg font-bold accent-text">Spot Award</h3>
+                        <p class="text-sm text-gray-400 mt-1 flex-grow">For exceptional contribution to the retail analytics project, significantly improving data processing times.</p>
+                        <p class="text-xs text-gray-500 font-semibold mt-2">Accenture - Q3 2023</p>
+                    </div>
+                    <div class="card p-5 rounded-lg text-center flex flex-col">
+                        <h3 class="text-lg font-bold accent-text">Client Value Award</h3>
+                        <p class="text-sm text-gray-400 mt-1 flex-grow">Recognized for developing an innovative Power BI dashboard that provided key insights to the client.</p>
+                        <p class="text-xs text-gray-500 font-semibold mt-2">Accenture - Q1 2024</p>
+                    </div>
+                    <div class="card p-5 rounded-lg text-center flex flex-col">
+                        <h3 class="text-lg font-bold accent-text">Innovation Champion</h3>
+                        <p class="text-sm text-gray-400 mt-1 flex-grow">Awarded for proposing and implementing a new automation workflow using Power Automate.</p>
+                        <p class="text-xs text-gray-500 font-semibold mt-2">Accenture - Q4 2023</p>
+                    </div>
+                </div>
+            </div>
+        </section>
         
         <!-- Education Section -->
         <section id="education" class="py-16 bg-slate-900/50 section-reveal">
@@ -251,10 +341,14 @@
             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-10">
                     <h2 class="text-3xl font-bold text-white">Featured Projects</h2>
+                    <div class="w-16 h-1 accent-bg mx-auto mt-3 mb-4"></div>
+                    <a href="https://github.com/ManojKumar-DataTech" target="_blank" rel="noopener noreferrer" class="inline-block bg-slate-700 text-white font-semibold px-5 py-2 rounded-md hover:bg-slate-600 transition-colors text-sm shadow-lg">
+                        View Projects on GitHub
+                    </a>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     <div class="card rounded-lg overflow-hidden flex flex-col">
-                        <img src="https://images.unsplash.com/photo-1581094794329-c8112a89af13?q=80&w=2070&auto=format&fit=crop" alt="Retail Analytics" class="w-full h-44 object-cover">
+                        <img src="https://images.unsplash.com/photo-1581094794329-c8112a89af13?q=80&w=2070&auto=format&fit=crop" onerror="this.onerror=null;this.src='https://placehold.co/600x400/0f172a/d1d5db?text=Project+Image';" alt="Retail Analytics" class="w-full h-44 object-cover">
                         <div class="p-4 flex flex-col flex-grow">
                             <h3 class="text-md font-bold text-white">ETL Pipeline for Retail Analytics</h3>
                             <p class="mt-2 text-xs text-gray-400 flex-grow">Automated pipeline processing millions of daily sales records for real-time analytics.</p>
@@ -266,7 +360,7 @@
                         </div>
                     </div>
                     <div class="card rounded-lg overflow-hidden flex flex-col">
-                        <img src="https://images.unsplash.com/photo-1556155092-490a1ba16284?q=80&w=2070&auto=format&fit=crop" alt="Insurance Claims" class="w-full h-44 object-cover">
+                        <img src="https://images.unsplash.com/photo-1556155092-490a1ba16284?q=80&w=2070&auto=format&fit=crop" onerror="this.onerror=null;this.src='https://placehold.co/600x400/0f172a/d1d5db?text=Project+Image';" alt="Insurance Claims" class="w-full h-44 object-cover">
                         <div class="p-4 flex flex-col flex-grow">
                             <h3 class="text-md font-bold text-white">Insurance Claims Analysis</h3>
                             <p class="mt-2 text-xs text-gray-400 flex-grow">Secure analytics on Azure SQL to identify claim patterns and detect potential fraud.</p>
@@ -278,7 +372,7 @@
                         </div>
                     </div>
                     <div class="card rounded-lg overflow-hidden flex flex-col">
-                        <img src="https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?q=80&w=1995&auto=format&fit=crop" alt="Customer Segmentation" class="w-full h-44 object-cover">
+                        <img src="https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?q=80&w=1995&auto=format&fit=crop" onerror="this.onerror=null;this.src='https://placehold.co/600x400/0f172a/d1d5db?text=Project+Image';" alt="Customer Segmentation" class="w-full h-44 object-cover">
                         <div class="p-4 flex flex-col flex-grow">
                             <h3 class="text-md font-bold text-white">Customer Segmentation with ML</h3>
                             <p class="mt-2 text-xs text-gray-400 flex-grow">PySpark ML model on Databricks to cluster customers for personalized marketing.</p>
