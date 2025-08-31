@@ -7,423 +7,1417 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
+        :root {
+            --primary: #0ea5e9;
+            --primary-dark: #0284c7;
+            --secondary: #8b5cf6;
+            --accent: #06b6d4;
+            --dark: #0f172a;
+            --darker: #020617;
+            --light: #f8fafc;
+            --gray: #64748b;
+            --gray-dark: #334155;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
         body {
-            font-family: 'Manrope', sans-serif;
-            background-color: #020617; /* Slate-950 */
-            color: #d1d5db;
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #020617 100%);
+            color: #f1f5f9;
+            overflow-x: hidden;
         }
-        .header-bg {
-            background-color: rgba(2, 6, 23, 0.7);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+        
+        /* Modern Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
         }
-        .hero-section {
-            background-image: url('https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?q=80&w=2070&auto=format&fit=crop');
-            background-size: cover;
-            background-position: center;
+        
+        ::-webkit-scrollbar-track {
+            background: var(--darker);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, var(--primary), var(--secondary));
+            border-radius: 4px;
+        }
+        
+        /* Glassmorphism Header */
+        .header-glass {
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+        }
+        
+        /* Hero Section */
+        .hero-bg {
+            background: linear-gradient(135deg, rgba(14, 165, 233, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
             position: relative;
+            overflow: hidden;
         }
-        .hero-overlay {
+        
+        .hero-bg::before {
+            content: '';
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background-color: rgba(2, 6, 23, 0.8); /* Darker overlay for better text contrast */
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(148,163,184,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
         }
-        .section-reveal {
+        
+        /* Floating Elements */
+        .floating {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        /* Gradient Text */
+        .gradient-text {
+            background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        /* Modern Cards */
+        .modern-card {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            border-radius: 16px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .modern-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            border-color: var(--primary);
+            box-shadow: 0 20px 40px rgba(14, 165, 233, 0.2);
+        }
+        
+        /* Gradient Buttons */
+        .btn-gradient {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border: none;
+            border-radius: 12px;
+            padding: 12px 24px;
+            color: white;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-gradient::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .btn-gradient:hover::before {
+            left: 100%;
+        }
+        
+        .btn-gradient:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(14, 165, 233, 0.3);
+        }
+        
+        /* Section Animations */
+        .fade-in-up {
             opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .section-reveal.visible {
+        
+        .fade-in-up.visible {
             opacity: 1;
             transform: translateY(0);
         }
-        .card {
-            background-color: #0f172a; /* Slate-900 */
-            border: 1px solid #1e293b; /* Slate-800 */
-            transition: transform 0.3s ease, border-color 0.3s ease;
+        
+        /* Skill Bars */
+        .skill-bar {
+            background: rgba(148, 163, 184, 0.1);
+            border-radius: 8px;
+            height: 8px;
+            overflow: hidden;
+            position: relative;
         }
-        .card:hover {
-            transform: translateY(-6px);
-            border-color: #38bdf8; /* Sky-500 */
+        
+        .skill-progress {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            height: 100%;
+            border-radius: 8px;
+            transition: width 1.5s ease;
         }
-        .accent-text {
-            color: #7dd3fc; /* Light Sky Blue */
+        
+        /* Timeline */
+        .timeline-item {
+            position: relative;
+            padding-left: 30px;
         }
-        .accent-bg {
-            background-color: #38bdf8;
-        }
-        .ai-generated-content {
-            background-color: #1e293b;
-            border-left: 4px solid #38bdf8;
-            padding: 1rem;
-            margin-top: 1rem;
-            border-radius: 0.25rem;
-            font-style: italic;
-            font-size: 0.875rem;
-            line-height: 1.5;
-            color: #cbd5e1;
-        }
-        .loader {
-            border: 4px solid #334155;
-            border-top: 4px solid #38bdf8;
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 12px;
+            height: 12px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             border-radius: 50%;
-            width: 24px;
-            height: 24px;
-            animation: spin 1s linear infinite;
-            margin: 1rem auto;
+            border: 3px solid var(--dark);
         }
+        
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            left: 5px;
+            top: 12px;
+            width: 2px;
+            height: calc(100% + 20px);
+            background: linear-gradient(180deg, var(--primary), transparent);
+        }
+        
+        .timeline-item:last-child::after {
+            display: none;
+        }
+        
+        /* Loading Animation */
+        .loader {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(148, 163, 184, 0.1);
+            border-top: 3px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-        /* Custom Modal for alerts */
-        .custom-alert-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(0, 0, 0, 0.7);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 100;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s, visibility 0.3s;
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero-bg::before {
+                background-size: 20px 20px;
+            }
         }
-        .custom-alert-modal.visible {
-            opacity: 1;
-            visibility: visible;
-        }
-        .custom-alert-content {
-            background-color: #0f172a;
-            padding: 2rem;
-            border-radius: 0.5rem;
-            border: 1px solid #1e293b;
-            text-align: center;
-            color: #d1d5db;
-        }
-        .custom-alert-button {
-            margin-top: 1rem;
-            background-color: #38bdf8;
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 0.375rem;
-            cursor: pointer;
+        
+        /* Custom Scrollbar for Firefox */
+        html {
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary) var(--darker);
         }
     </style>
 </head>
 <body class="antialiased">
 
     <!-- Header -->
-    <header class="header-bg sticky top-0 z-50 border-b border-slate-800">
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16">
-                <a href="#home" class="text-xl font-bold text-white">Manoj Kumar</a>
-                <nav class="hidden md:flex items-center space-x-8">
-                    <a href="#about" class="text-sm font-semibold text-gray-300 hover:text-sky-400 transition-colors">About</a>
-                    <a href="#skills" class="text-sm font-semibold text-gray-300 hover:text-sky-400 transition-colors">Skills</a>
-                    <a href="#experience" class="text-sm font-semibold text-gray-300 hover:text-sky-400 transition-colors">Experience</a>
-                    <a href="#rewards" class="text-sm font-semibold text-gray-300 hover:text-sky-400 transition-colors">Rewards</a>
-                    <a href="#education" class="text-sm font-semibold text-gray-300 hover:text-sky-400 transition-colors">Education</a>
-                    <a href="#projects" class="text-sm font-semibold text-gray-300 hover:text-sky-400 transition-colors">Projects</a>
-                    <a href="#contact" class="text-sm font-semibold text-gray-300 hover:text-sky-400 transition-colors">Contact</a>
+    <header class="header-glass sticky top-0 z-50">
+        <div class="container mx-auto px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <a href="#home" class="text-2xl font-bold gradient-text">Manoj Kumar</a>
+                <nav class="hidden lg:flex items-center space-x-8">
+                    <a href="#about" class="text-sm font-medium text-gray-300 hover:text-white transition-all duration-300 relative group">
+                        About
+                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-secondary transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a href="#skills" class="text-sm font-medium text-gray-300 hover:text-white transition-all duration-300 relative group">
+                        Skills
+                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-secondary transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a href="#experience" class="text-sm font-medium text-gray-300 hover:text-white transition-all duration-300 relative group">
+                        Experience
+                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-secondary transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a href="#rewards" class="text-sm font-medium text-gray-300 hover:text-white transition-all duration-300 relative group">
+                        Rewards
+                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-secondary transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a href="#education" class="text-sm font-medium text-gray-300 hover:text-white transition-all duration-300 relative group">
+                        Education
+                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-secondary transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a href="#certifications-courses" class="text-sm font-medium text-gray-300 hover:text-white transition-all duration-300 relative group">
+                        Courses
+                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-secondary transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a href="#projects" class="text-sm font-medium text-gray-300 hover:text-white transition-all duration-300 relative group">
+                        Projects
+                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-secondary transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a href="#contact" class="text-sm font-medium text-gray-300 hover:text-white transition-all duration-300 relative group">
+                        Contact
+                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-secondary transition-all duration-300 group-hover:w-full"></span>
+                    </a>
                 </nav>
+                <!-- Mobile Menu Button -->
+                <button class="lg:hidden text-white p-2" id="mobile-menu-btn">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div class="lg:hidden hidden" id="mobile-menu">
+            <div class="px-6 py-4 space-y-4 bg-black/20 backdrop-blur-lg">
+                <a href="#about" class="block text-sm font-medium text-gray-300 hover:text-white transition-colors">About</a>
+                <a href="#skills" class="block text-sm font-medium text-gray-300 hover:text-white transition-colors">Skills</a>
+                <a href="#experience" class="block text-sm font-medium text-gray-300 hover:text-white transition-colors">Experience</a>
+                <a href="#rewards" class="block text-sm font-medium text-gray-300 hover:text-white transition-colors">Rewards</a>
+                <a href="#education" class="block text-sm font-medium text-gray-300 hover:text-white transition-colors">Education</a>
+                <a href="#certifications-courses" class="block text-sm font-medium text-gray-300 hover:text-white transition-colors">Courses</a>
+                <a href="#projects" class="block text-sm font-medium text-gray-300 hover:text-white transition-colors">Projects</a>
+                <a href="#contact" class="block text-sm font-medium text-gray-300 hover:text-white transition-colors">Contact</a>
             </div>
         </div>
     </header>
 
     <main>
         <!-- Hero Section -->
-        <section id="home" class="hero-section py-16 md:py-24">
-            <div class="hero-overlay"></div>
-            <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                <div class="grid md:grid-cols-12 gap-8 items-center">
-                    <div class="md:col-span-4 lg:col-span-3 text-center md:text-left">
-                        <img src="images/about-me.png" 
-                             onerror="this.onerror=null;this.src='https://placehold.co/200x200/0f172a/d1d5db?text=MK';"
-                             alt="Manoj Kumar" class="w-48 h-48 aspect-square rounded-full object-cover mx-auto shadow-2xl border-4 border-slate-800">
-                    </div>
-                    <div class="md:col-span-8 lg:col-span-9 text-center md:text-left">
-                        <h1 class="text-4xl md:text-6xl font-extrabold text-white">
-                            Manoj Kumar
+        <section id="home" class="hero-bg min-h-screen flex items-center relative">
+            <div class="container mx-auto px-6 lg:px-8 relative z-10">
+                <div class="grid lg:grid-cols-2 gap-12 items-center">
+                    <div class="text-center lg:text-left">
+                        <div class="mb-6">
+                            <span class="inline-block px-4 py-2 bg-gradient-to-r from-primary/20 to-secondary/20 rounded-full text-sm font-medium text-primary border border-primary/30">
+                                <i class="fas fa-rocket mr-2"></i>Available for Opportunities
+                            </span>
+                        </div>
+                        <h1 class="text-5xl lg:text-7xl font-black mb-6">
+                            <span class="gradient-text">Manoj Kumar</span>
                         </h1>
-                        <p class="mt-2 text-xl md:text-2xl font-semibold accent-text">
+                        <h2 class="text-2xl lg:text-3xl font-bold text-white mb-6">
                             Azure Data Engineer
-                        </p>
-                        <p class="mt-4 text-lg text-gray-300 max-w-2xl">
+                        </h2>
+                        <p class="text-lg lg:text-xl text-gray-300 mb-8 max-w-2xl">
                             I engineer intelligent data solutions on the Azure cloud, transforming complex datasets into strategic assets that drive automation and business growth.
                         </p>
-                         <div class="mt-6 flex justify-center md:justify-start space-x-4">
-                            <a href="https://1drv.ms/w/s!AlIFnmMIGqnngUU3ixsi0HxW8Fm1" target="_blank" class="bg-sky-500 text-white font-bold px-6 py-2.5 rounded-md hover:bg-sky-600 transition-colors shadow-lg">Download Resume</a>
-                            <a href="#contact" class="bg-slate-700 text-white font-bold px-6 py-2.5 rounded-md hover:bg-slate-600 transition-colors">Contact Me</a>
+                        <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                            <a href="https://1drv.ms/w/s!AlIFnmMIGqnngUU3ixsi0HxW8Fm1" target="_blank" class="btn-gradient">
+                                <i class="fas fa-download mr-2"></i>Download Resume
+                            </a>
+                            <a href="#contact" class="px-6 py-3 border-2 border-primary text-primary font-semibold rounded-xl hover:bg-primary hover:text-white transition-all duration-300">
+                                <i class="fas fa-envelope mr-2"></i>Contact Me
+                            </a>
                         </div>
                     </div>
+                    <div class="relative">
+                        <div class="floating">
+                            <img src="images/about-me.png" 
+                                 onerror="this.onerror=null;this.src='https://placehold.co/400x400/0f172a/d1d5db?text=MK';"
+                                 alt="Manoj Kumar" 
+                                 class="w-80 h-80 lg:w-96 lg:h-96 rounded-full object-cover mx-auto shadow-2xl border-4 border-primary/30">
+                        </div>
+                        <!-- Floating Elements -->
+                        <div class="absolute -top-4 -right-4 w-20 h-20 bg-gradient-to-br from-primary to-secondary rounded-full opacity-20 floating" style="animation-delay: -2s;"></div>
+                        <div class="absolute -bottom-4 -left-4 w-16 h-16 bg-gradient-to-br from-secondary to-accent rounded-full opacity-20 floating" style="animation-delay: -4s;"></div>
+                    </div>
                 </div>
+            </div>
+            
+            <!-- Enhanced Scroll Indicator -->
+            <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2">
+                <button id="scroll-down-btn" class="group flex flex-col items-center text-gray-400 hover:text-white transition-all duration-300 cursor-pointer">
+                    <span class="text-sm mb-3 font-medium tracking-wider group-hover:scale-105 transition-transform duration-300">Scroll Down</span>
+                    <div class="relative">
+                        <div class="w-8 h-12 border-2 border-gray-400 group-hover:border-primary rounded-full flex justify-center transition-all duration-300">
+                            <div class="w-1.5 h-4 bg-gradient-to-b from-primary to-secondary rounded-full mt-2 animate-bounce"></div>
+                        </div>
+                        <!-- Glow effect -->
+                        <div class="absolute inset-0 w-8 h-12 border-2 border-primary rounded-full opacity-0 group-hover:opacity-30 transition-opacity duration-300 blur-sm"></div>
+                    </div>
+                    <!-- Arrow indicator -->
+                    <div class="mt-2 opacity-60 group-hover:opacity-100 transition-opacity duration-300">
+                        <i class="fas fa-chevron-down text-xs animate-pulse"></i>
+                    </div>
+                </button>
             </div>
         </section>
 
         <!-- About Section -->
-        <section id="about" class="py-16 bg-slate-900/50 section-reveal">
-            <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center max-w-3xl">
-                <h2 class="text-3xl font-bold text-white">About Me</h2>
-                <div class="w-16 h-1 accent-bg mx-auto mt-3"></div>
-                <p class="mt-5 text-gray-300">
-                    With 3 years of experience in data-centric roles, I've honed my skills in designing and implementing end-to-end data solutions. My journey has taken me from managing cloud infrastructure to developing BI reports, giving me a holistic understanding of the data lifecycle. I am passionate about leveraging cloud technology to solve complex data challenges and have a proven track record of delivering impactful projects.
-                </p>
+        <section id="about" class="py-20 bg-gradient-to-br from-dark/50 to-darker/50 fade-in-up">
+            <div class="container mx-auto px-6 lg:px-8">
+                <div class="max-w-4xl mx-auto text-center">
+                    <div class="mb-12">
+                        <h2 class="text-4xl lg:text-5xl font-bold text-white mb-6">
+                            About <span class="gradient-text">Me</span>
+                        </h2>
+                        <div class="w-24 h-1 bg-gradient-to-r from-primary to-secondary mx-auto rounded-full"></div>
+                    </div>
+                    <div class="grid lg:grid-cols-3 gap-8 items-center">
+                        <div class="lg:col-span-2">
+                            <p class="text-lg lg:text-xl text-gray-300 leading-relaxed mb-6">
+                                With 3 years of experience in data-centric roles, I've honed my skills in designing and implementing end-to-end data solutions. My journey has taken me from managing cloud infrastructure to developing BI reports, giving me a holistic understanding of the data lifecycle.
+                            </p>
+                            <p class="text-lg lg:text-xl text-gray-300 leading-relaxed mb-8">
+                                I am passionate about leveraging cloud technology to solve complex data challenges and have a proven track record of delivering impactful projects that drive business growth and operational efficiency.
+                            </p>
+                            <div class="flex flex-wrap gap-4 justify-center lg:justify-start">
+                                <div class="flex items-center text-primary">
+                                    <i class="fas fa-check-circle mr-2"></i>
+                                    <span class="text-white">3+ Years Experience</span>
+                                </div>
+                                <div class="flex items-center text-primary">
+                                    <i class="fas fa-check-circle mr-2"></i>
+                                    <span class="text-white">Azure Certified</span>
+                                </div>
+                                <div class="flex items-center text-primary">
+                                    <i class="fas fa-check-circle mr-2"></i>
+                                    <span class="text-white">Data Solutions</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modern-card p-8 text-center">
+                            <div class="w-20 h-20 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center mx-auto mb-6">
+                                <i class="fas fa-database text-2xl text-white"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-white mb-4">Data Engineering Expert</h3>
+                            <p class="text-gray-400 mb-6">Specialized in Azure cloud solutions and data pipeline architecture</p>
+                            <div class="space-y-3">
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-gray-400">Data Pipelines</span>
+                                    <span class="text-primary font-semibold">95%</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" style="width: 95%"></div>
+                                </div>
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-gray-400">Azure Services</span>
+                                    <span class="text-primary font-semibold">90%</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" style="width: 90%"></div>
+                                </div>
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-gray-400">Power BI</span>
+                                    <span class="text-primary font-semibold">85%</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" style="width: 85%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 
         <!-- Skills Section -->
-        <section id="skills" class="py-16 section-reveal">
-            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center mb-10">
-                    <h2 class="text-3xl font-bold text-white">Core Competencies</h2>
+        <section id="skills" class="py-20 fade-in-up">
+            <div class="container mx-auto px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl lg:text-5xl font-bold text-white mb-6">
+                        Core <span class="gradient-text">Competencies</span>
+                    </h2>
+                    <div class="w-24 h-1 bg-gradient-to-r from-primary to-secondary mx-auto rounded-full mb-8"></div>
+                    <p class="text-lg text-gray-400 max-w-2xl mx-auto">
+                        Mastering the latest technologies and tools to deliver cutting-edge data solutions
+                    </p>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <div class="card p-5 rounded-lg">
-                        <h3 class="text-lg font-bold text-white">Azure Data Services</h3>
-                        <p class="mt-2 text-sm text-gray-400">Data Factory, Synapse Analytics, Databricks, Data Lake Storage.</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <div class="modern-card p-8 text-center group">
+                        <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                            <i class="fas fa-cloud text-2xl text-white"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-4">Azure Data Services</h3>
+                        <p class="text-gray-400 mb-6">Data Factory, Synapse Analytics, Databricks, Data Lake Storage</p>
+                        <div class="flex flex-wrap gap-2 justify-center">
+                            <span class="px-3 py-1 bg-primary/20 text-primary text-xs rounded-full">Data Factory</span>
+                            <span class="px-3 py-1 bg-primary/20 text-primary text-xs rounded-full">Synapse</span>
+                            <span class="px-3 py-1 bg-primary/20 text-primary text-xs rounded-full">Databricks</span>
+                        </div>
                     </div>
-                     <div class="card p-5 rounded-lg">
-                        <h3 class="text-lg font-bold text-white">Microsoft Fabric</h3>
-                        <p class="mt-2 text-sm text-gray-400">Integrated analytics, data warehousing, and real-time analytics.</p>
+                    <div class="modern-card p-8 text-center group">
+                        <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                            <i class="fas fa-chart-line text-2xl text-white"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-4">Microsoft Fabric</h3>
+                        <p class="text-gray-400 mb-6">Integrated analytics, data warehousing, and real-time analytics</p>
+                        <div class="flex flex-wrap gap-2 justify-center">
+                            <span class="px-3 py-1 bg-secondary/20 text-secondary text-xs rounded-full">Analytics</span>
+                            <span class="px-3 py-1 bg-secondary/20 text-secondary text-xs rounded-full">Warehousing</span>
+                            <span class="px-3 py-1 bg-secondary/20 text-secondary text-xs rounded-full">Real-time</span>
+                        </div>
                     </div>
-                    <div class="card p-5 rounded-lg">
-                        <h3 class="text-lg font-bold text-white">Power Platform & Automation</h3>
-                        <p class="mt-2 text-sm text-gray-400">Power BI, Power Apps, and Power Automate for custom business solutions.</p>
+                    <div class="modern-card p-8 text-center group">
+                        <div class="w-16 h-16 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                            <i class="fas fa-bolt text-2xl text-white"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-4">Power Platform & Automation</h3>
+                        <p class="text-gray-400 mb-6">Power BI, Power Apps, and Power Automate for custom business solutions</p>
+                        <div class="flex flex-wrap gap-2 justify-center">
+                            <span class="px-3 py-1 bg-green-500/20 text-green-400 text-xs rounded-full">Power BI</span>
+                            <span class="px-3 py-1 bg-green-500/20 text-green-400 text-xs rounded-full">Power Apps</span>
+                            <span class="px-3 py-1 bg-green-500/20 text-green-400 text-xs rounded-full">Automate</span>
+                        </div>
                     </div>
-                    <div class="card p-5 rounded-lg">
-                        <h3 class="text-lg font-bold text-white">GenAI & Developer Tools</h3>
-                        <p class="mt-2 text-sm text-gray-400">GenAI principles, GitHub Copilot, Python, PySpark, and SQL.</p>
+                    <div class="modern-card p-8 text-center group">
+                        <div class="w-16 h-16 bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                            <i class="fas fa-robot text-2xl text-white"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-4">GenAI & Developer Tools</h3>
+                        <p class="text-gray-400 mb-6">GenAI principles, GitHub Copilot, Python, PySpark, and SQL</p>
+                        <div class="flex flex-wrap gap-2 justify-center">
+                            <span class="px-3 py-1 bg-orange-500/20 text-orange-400 text-xs rounded-full">GenAI</span>
+                            <span class="px-3 py-1 bg-orange-500/20 text-orange-400 text-xs rounded-full">Python</span>
+                            <span class="px-3 py-1 bg-orange-500/20 text-orange-400 text-xs rounded-full">PySpark</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Certifications Section -->
-        <section id="certifications" class="py-16 bg-slate-900/50 section-reveal">
-             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-                 <div class="text-center mb-10">
-                    <h2 class="text-3xl font-bold text-white">Professional Certifications</h2>
-                    <div class="w-16 h-1 accent-bg mx-auto mt-3 mb-4"></div>
-                    <a href="https://github.com/ManojKumar-DataTech" target="_blank" rel="noopener noreferrer" class="inline-block bg-slate-700 text-white font-semibold px-5 py-2 rounded-md hover:bg-slate-600 transition-colors text-sm shadow-lg">
+        <!-- Professional Certifications Section -->
+        <section id="certifications" class="py-20 bg-gradient-to-br from-dark/50 to-darker/50 fade-in-up">
+            <div class="container mx-auto px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl lg:text-5xl font-bold text-white mb-6">
+                        Professional <span class="gradient-text">Certifications</span>
+                    </h2>
+                    <div class="w-24 h-1 bg-gradient-to-r from-primary to-secondary mx-auto rounded-full mb-8"></div>
+                    <p class="text-lg text-gray-400 max-w-2xl mx-auto mb-8">
+                        Microsoft certifications and comprehensive Nanodegree programs validating expertise in Azure data services and analytics
+                    </p>
+                    <a href="https://github.com/ManojKumar-DataTech" target="_blank" rel="noopener noreferrer" 
+                       class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-primary to-secondary text-white font-semibold rounded-xl hover:scale-105 transition-all duration-300 shadow-lg">
+                        <i class="fab fa-github mr-2"></i>
                         View Certifications on GitHub
                     </a>
                 </div>
-                <div class="flex flex-wrap justify-center gap-6">
-                    <div class="card p-5 rounded-lg text-center">
-                        <h3 class="text-lg font-bold accent-text">Fabric Analytics Engineer Associate</h3>
-                        <p class="text-sm text-gray-500 font-semibold">(DP-600)</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <div class="modern-card p-8 text-center group relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        <div class="relative z-10">
+                            <div class="w-20 h-20 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                                <i class="fas fa-chart-bar text-2xl text-white"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-white mb-3">Fabric Analytics Engineer Associate</h3>
+                            <div class="inline-block px-4 py-1 bg-blue-500/20 text-blue-400 text-sm font-semibold rounded-full mb-4">
+                                DP-600
+                            </div>
+                            <p class="text-gray-400 text-sm mb-4">Advanced analytics and data engineering on Microsoft Fabric platform</p>
+                            <div class="flex items-center justify-center text-primary mb-2">
+                                <i class="fas fa-certificate mr-2"></i>
+                                <span class="text-sm font-semibold">Microsoft Certified</span>
+                            </div>
+                            <div class="text-center">
+                                <span class="text-xs text-gray-500 font-semibold">Completed: March 2024</span>
+                            </div>
+                        </div>
                     </div>
-                     <div class="card p-5 rounded-lg text-center">
-                        <h3 class="text-lg font-bold accent-text">Power BI Data Analyst Associate</h3>
-                        <p class="text-sm text-gray-500 font-semibold">(PL-300)</p>
+
+                    <div class="modern-card p-8 text-center group relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-pink-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        <div class="relative z-10">
+                            <div class="w-20 h-20 bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                                <i class="fas fa-chart-pie text-2xl text-white"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-white mb-3">Power BI Data Analyst Associate</h3>
+                            <div class="inline-block px-4 py-1 bg-purple-500/20 text-purple-400 text-sm font-semibold rounded-full mb-4">
+                                PL-300
+                            </div>
+                            <p class="text-gray-400 text-sm mb-4">Data visualization, modeling, and business intelligence solutions</p>
+                            <div class="flex items-center justify-center text-primary mb-2">
+                                <i class="fas fa-certificate mr-2"></i>
+                                <span class="text-sm font-semibold">Microsoft Certified</span>
+                            </div>
+                            <div class="text-center">
+                                <span class="text-xs text-gray-500 font-semibold">Completed: January 2024</span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="card p-5 rounded-lg text-center">
-                        <h3 class="text-lg font-bold accent-text">Azure Data Fundamentals</h3>
-                        <p class="text-sm text-gray-500 font-semibold">(DP-900)</p>
+
+                    <div class="modern-card p-8 text-center group relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-br from-green-500/10 to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        <div class="relative z-10">
+                            <div class="w-20 h-20 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                                <i class="fas fa-database text-2xl text-white"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-white mb-3">Azure Data Fundamentals</h3>
+                            <div class="inline-block px-4 py-1 bg-green-500/20 text-green-400 text-sm font-semibold rounded-full mb-4">
+                                DP-900
+                            </div>
+                            <p class="text-gray-400 text-sm mb-4">Core data concepts and Azure data services fundamentals</p>
+                            <div class="flex items-center justify-center text-primary mb-2">
+                                <i class="fas fa-certificate mr-2"></i>
+                                <span class="text-sm font-semibold">Microsoft Certified</span>
+                            </div>
+                            <div class="text-center">
+                                <span class="text-xs text-gray-500 font-semibold">Completed: September 2023</span>
+                            </div>
+                        </div>
                     </div>
-                     <div class="card p-5 rounded-lg text-center">
-                        <h3 class="text-lg font-bold accent-text">Azure Fundamentals</h3>
-                        <p class="text-sm text-gray-500 font-semibold">(AZ-900)</p>
+
+                    <div class="modern-card p-8 text-center group relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-br from-orange-500/10 to-red-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        <div class="relative z-10">
+                            <div class="w-20 h-20 bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                                <i class="fas fa-cloud text-2xl text-white"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-white mb-3">Azure Fundamentals</h3>
+                            <div class="inline-block px-4 py-1 bg-orange-500/20 text-orange-400 text-sm font-semibold rounded-full mb-4">
+                                AZ-900
+                            </div>
+                            <p class="text-gray-400 text-sm mb-4">Cloud concepts and core Azure services foundation</p>
+                            <div class="flex items-center justify-center text-primary mb-2">
+                                <i class="fas fa-certificate mr-2"></i>
+                                <span class="text-sm font-semibold">Microsoft Certified</span>
+                            </div>
+                            <div class="text-center">
+                                <span class="text-xs text-gray-500 font-semibold">Completed: June 2023</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
-             </div>
+
+                <!-- Certification Stats -->
+                <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="modern-card p-8 text-center">
+                        <div class="w-16 h-16 bg-gradient-to-br from-primary to-secondary rounded-2xl flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-award text-2xl text-white"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-2">4</h3>
+                        <p class="text-gray-400">Active Certifications</p>
+                    </div>
+                    <div class="modern-card p-8 text-center">
+                        <div class="w-16 h-16 bg-gradient-to-br from-secondary to-accent rounded-2xl flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-calendar-check text-2xl text-white"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-2">2023-2024</h3>
+                        <p class="text-gray-400">Certification Period</p>
+                    </div>
+                    <div class="modern-card p-8 text-center">
+                        <div class="w-16 h-16 bg-gradient-to-br from-accent to-primary rounded-2xl flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-star text-2xl text-white"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-2">100%</h3>
+                        <p class="text-gray-400">Pass Rate</p>
+                    </div>
+                </div>
+
+                
+            </div>
         </section>
 
-        <!-- Experience Section -->
-        <section id="experience" class="py-16 section-reveal">
-            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center mb-10">
-                    <h2 class="text-3xl font-bold text-white">Work Experience</h2>
+        <!-- Work Experience Section -->
+        <section id="experience" class="py-20 fade-in-up">
+            <div class="container mx-auto px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl lg:text-5xl font-bold text-white mb-6">
+                        Work <span class="gradient-text">Experience</span>
+                    </h2>
+                    <div class="w-24 h-1 bg-gradient-to-r from-primary to-secondary mx-auto rounded-full mb-8"></div>
+                    <p class="text-lg text-gray-400 max-w-2xl mx-auto">
+                        Professional journey in data engineering and cloud infrastructure, delivering impactful solutions for enterprise clients
+                    </p>
                 </div>
-                <div class="relative max-w-3xl mx-auto">
-                    <div class="border-l-2 border-slate-700 absolute h-full left-3"></div>
-                    <div class="space-y-10">
-                        <div class="relative pl-10">
-                            <div class="absolute -left-0.5 top-1 w-6 h-6 accent-bg rounded-full border-4 border-slate-900"></div>
-                            <p class="text-sm font-semibold text-sky-400">2023 - Present</p>
-                            <h3 class="text-xl font-bold text-white mt-1">Power BI Developer / Data Engineer</h3>
-                            <p class="font-semibold text-gray-500 mb-3">Accenture</p>
-                            <ul class="list-disc list-inside space-y-2 text-gray-400 text-sm">
-                                <li>Architect and build end-to-end data pipelines for efficient data movement and transformation.</li>
-                                <li>Automate workflows (ETL/ELT) to improve data accuracy and reduce manual processes.</li>
-                                <li>Develop complex BI reports and dashboards in Power BI to provide actionable insights.</li>
-                                <li>Collaborate with stakeholders to translate business requirements into technical solutions.</li>
-                            </ul>
+
+                <div class="max-w-6xl mx-auto">
+                    <!-- Experience Stats -->
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-16">
+                        <div class="modern-card p-6 text-center">
+                            <div class="w-14 h-14 bg-gradient-to-br from-primary to-secondary rounded-2xl flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-briefcase text-xl text-white"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold text-white mb-2">3+</h3>
+                            <p class="text-gray-400 text-sm">Years Experience</p>
                         </div>
-                        <div class="relative pl-10">
-                            <div class="absolute -left-0.5 top-1 w-6 h-6 accent-bg rounded-full border-4 border-slate-900"></div>
-                            <p class="text-sm font-semibold text-sky-400">2021 - 2023</p>
-                            <h3 class="text-xl font-bold text-white mt-1">Cloud Infrastructure Associate</h3>
-                            <p class="font-semibold text-gray-500 mb-3">Accenture</p>
-                             <ul class="list-disc list-inside space-y-2 text-gray-400 text-sm">
-                                <li>Managed and monitored core Azure platform components including servers, networks, and storage.</li>
-                                <li>Ensured high availability and performance of cloud infrastructure supporting data solutions.</li>
-                                <li>Applied ITIL best practices for incident management and operational excellence to minimize downtime.</li>
-                            </ul>
+                        <div class="modern-card p-6 text-center">
+                            <div class="w-14 h-14 bg-gradient-to-br from-secondary to-accent rounded-2xl flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-project-diagram text-xl text-white"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold text-white mb-2">15+</h3>
+                            <p class="text-gray-400 text-sm">Projects Delivered</p>
+                        </div>
+                        <div class="modern-card p-6 text-center">
+                            <div class="w-14 h-14 bg-gradient-to-br from-accent to-primary rounded-2xl flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-users text-xl text-white"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold text-white mb-2">10+</h3>
+                            <p class="text-gray-400 text-sm">Clients Served</p>
+                        </div>
+                        <div class="modern-card p-6 text-center">
+                            <div class="w-14 h-14 bg-gradient-to-br from-primary to-secondary rounded-2xl flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-tools text-xl text-white"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold text-white mb-2">20+</h3>
+                            <p class="text-gray-400 text-sm">Technologies Used</p>
+                        </div>
+                    </div>
+
+                    <!-- Comprehensive Career Progression Timeline -->
+                    <div class="modern-card p-8">
+                        <h3 class="text-2xl font-bold text-white text-center mb-8">
+                            Career <span class="gradient-text">Progression</span>
+                        </h3>
+                        <div class="relative">
+                            <!-- Timeline Line -->
+                            <div class="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary to-secondary"></div>
+                            
+                            <!-- Current Role - Power BI Developer / Data Engineer -->
+                            <div class="flex items-start space-x-6 mb-12">
+                                <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-500 rounded-full flex items-center justify-center flex-shrink-0 relative">
+                                    <i class="fas fa-chart-line text-white"></i>
+                                    <div class="absolute -top-1 -right-1 w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
+                                        <i class="fas fa-circle text-xs text-white"></i>
+                                    </div>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="flex items-center justify-between mb-3">
+                                        <h4 class="text-xl font-bold text-white">Power BI Developer / Data Engineer</h4>
+                                        <span class="inline-block px-3 py-1 bg-green-500/20 text-green-400 text-xs font-semibold rounded-full">
+                                            <i class="fas fa-circle mr-1"></i>Current
+                                        </span>
+                                    </div>
+                                    <div class="flex items-center text-gray-400 mb-3">
+                                        <i class="fas fa-building mr-2"></i>
+                                        <span class="font-semibold">Accenture</span>
+                                        <span class="mx-2">•</span>
+                                        <span class="text-sm">2023 - Present</span>
+                                    </div>
+                                    <p class="text-gray-300 text-sm mb-4 leading-relaxed">
+                                        Leading data engineering initiatives and developing advanced BI solutions for enterprise clients, driving data-driven decision making and operational efficiency.
+                                    </p>
+                                    
+                                    <!-- Key Responsibilities -->
+                                    <div class="mb-4">
+                                        <h5 class="text-sm font-semibold text-primary mb-2">Key Responsibilities:</h5>
+                                        <div class="space-y-2">
+                                            <div class="flex items-start space-x-3">
+                                                <i class="fas fa-check-circle text-primary mt-1 flex-shrink-0"></i>
+                                                <span class="text-gray-300 text-sm">Architect and build end-to-end data pipelines for efficient data movement and transformation</span>
+                                            </div>
+                                            <div class="flex items-start space-x-3">
+                                                <i class="fas fa-check-circle text-primary mt-1 flex-shrink-0"></i>
+                                                <span class="text-gray-300 text-sm">Automate workflows (ETL/ELT) to improve data accuracy and reduce manual processes</span>
+                                            </div>
+                                            <div class="flex items-start space-x-3">
+                                                <i class="fas fa-check-circle text-primary mt-1 flex-shrink-0"></i>
+                                                <span class="text-gray-300 text-sm">Develop complex BI reports and dashboards in Power BI to provide actionable insights</span>
+                                            </div>
+                                            <div class="flex items-start space-x-3">
+                                                <i class="fas fa-check-circle text-primary mt-1 flex-shrink-0"></i>
+                                                <span class="text-gray-300 text-sm">Collaborate with stakeholders to translate business requirements into technical solutions</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Technologies & Skills -->
+                                    <div class="mb-4">
+                                        <h5 class="text-sm font-semibold text-primary mb-2">Technologies & Skills:</h5>
+                                        <div class="flex flex-wrap gap-2">
+                                            <span class="px-3 py-1 bg-blue-500/20 text-blue-400 text-xs rounded-full">Power BI</span>
+                                            <span class="px-3 py-1 bg-blue-500/20 text-blue-400 text-xs rounded-full">Azure Data Factory</span>
+                                            <span class="px-3 py-1 bg-blue-500/20 text-blue-400 text-xs rounded-full">ETL/ELT</span>
+                                            <span class="px-3 py-1 bg-blue-500/20 text-blue-400 text-xs rounded-full">Data Pipelines</span>
+                                            <span class="px-3 py-1 bg-blue-500/20 text-blue-400 text-xs rounded-full">SQL</span>
+                                            <span class="px-3 py-1 bg-blue-500/20 text-blue-400 text-xs rounded-full">Python</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Achievements -->
+                                    <div>
+                                        <h5 class="text-sm font-semibold text-primary mb-2">Key Achievements:</h5>
+                                        <div class="space-y-2">
+                                            <div class="flex items-start space-x-3">
+                                                <i class="fas fa-trophy text-yellow-400 mt-1 flex-shrink-0"></i>
+                                                <span class="text-gray-300 text-sm">Pinnacle Awards FY25, North Star - for developing data analytics solutions</span>
+                                            </div>
+                                            <div class="flex items-start space-x-3">
+                                                <i class="fas fa-trophy text-yellow-400 mt-1 flex-shrink-0"></i>
+                                                <span class="text-gray-300 text-sm">Client Value Award - for innovative Power BI dashboard development</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Previous Role - Cloud Infrastructure Associate -->
+                            <div class="flex items-start space-x-6">
+                                <div class="w-16 h-16 bg-gradient-to-br from-green-500 to-teal-500 rounded-full flex items-center justify-center flex-shrink-0">
+                                    <i class="fas fa-cloud text-white"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="flex items-center justify-between mb-3">
+                                        <h4 class="text-xl font-bold text-white">Cloud Infrastructure Associate</h4>
+                                        <span class="inline-block px-3 py-1 bg-gray-500/20 text-gray-400 text-xs font-semibold rounded-full">
+                                            <i class="fas fa-clock mr-1"></i>Previous
+                                        </span>
+                                    </div>
+                                    <div class="flex items-center text-gray-400 mb-3">
+                                        <i class="fas fa-building mr-2"></i>
+                                        <span class="font-semibold">Accenture</span>
+                                        <span class="mx-2">•</span>
+                                        <span class="text-sm">2021 - 2023</span>
+                                    </div>
+                                    <p class="text-gray-300 text-sm mb-4 leading-relaxed">
+                                        Managed and optimized cloud infrastructure components, ensuring high availability and performance for data solutions while applying ITIL best practices.
+                                    </p>
+                                    
+                                    <!-- Key Responsibilities -->
+                                    <div class="mb-4">
+                                        <h5 class="text-sm font-semibold text-primary mb-2">Key Responsibilities:</h5>
+                                        <div class="space-y-2">
+                                            <div class="flex items-start space-x-3">
+                                                <i class="fas fa-check-circle text-primary mt-1 flex-shrink-0"></i>
+                                                <span class="text-gray-300 text-sm">Managed and monitored core Azure platform components including servers, networks, and storage</span>
+                                            </div>
+                                            <div class="flex items-start space-x-3">
+                                                <i class="fas fa-check-circle text-primary mt-1 flex-shrink-0"></i>
+                                                <span class="text-gray-300 text-sm">Ensured high availability and performance of cloud infrastructure supporting data solutions</span>
+                                            </div>
+                                            <div class="flex items-start space-x-3">
+                                                <i class="fas fa-check-circle text-primary mt-1 flex-shrink-0"></i>
+                                                <span class="text-gray-300 text-sm">Applied ITIL best practices for incident management and operational excellence</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Technologies & Skills -->
+                                    <div class="mb-4">
+                                        <h5 class="text-sm font-semibold text-primary mb-2">Technologies & Skills:</h5>
+                                        <div class="flex flex-wrap gap-2">
+                                            <span class="px-3 py-1 bg-green-500/20 text-green-400 text-xs rounded-full">Azure</span>
+                                            <span class="px-3 py-1 bg-green-500/20 text-green-400 text-xs rounded-full">Cloud Infrastructure</span>
+                                            <span class="px-3 py-1 bg-green-500/20 text-green-400 text-xs rounded-full">ITIL</span>
+                                            <span class="px-3 py-1 bg-green-500/20 text-green-400 text-xs rounded-full">Monitoring</span>
+                                            <span class="px-3 py-1 bg-green-500/20 text-green-400 text-xs rounded-full">Networking</span>
+                                            <span class="px-3 py-1 bg-green-500/20 text-green-400 text-xs rounded-full">Storage</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Achievements -->
+                                    <div>
+                                        <h5 class="text-sm font-semibold text-primary mb-2">Key Achievements:</h5>
+                                        <div class="space-y-2">
+                                            <div class="flex items-start space-x-3">
+                                                <i class="fas fa-trophy text-yellow-400 mt-1 flex-shrink-0"></i>
+                                                <span class="text-gray-300 text-sm">Innovation Champion - for automation workflow implementation</span>
+                                            </div>
+                                            <div class="flex items-start space-x-3">
+                                                <i class="fas fa-trophy text-yellow-400 mt-1 flex-shrink-0"></i>
+                                                <span class="text-gray-300 text-sm">Reduced infrastructure downtime by 60% through improved monitoring</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
         <!-- Rewards and Recognition Section -->
-        <section id="rewards" class="py-16 bg-slate-900/50 section-reveal">
-            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center mb-10">
-                    <h2 class="text-3xl font-bold text-white">Rewards & Recognition</h2>
-                    <div class="w-16 h-1 accent-bg mx-auto mt-3 mb-4"></div>
-                    <a href="https://github.com/ManojKumar-DataTech" target="_blank" rel="noopener noreferrer" class="inline-block bg-slate-700 text-white font-semibold px-5 py-2 rounded-md hover:bg-slate-600 transition-colors text-sm shadow-lg">
-                        View Rewards on GitHub
+        <section id="rewards" class="py-20 fade-in-up">
+            <div class="container mx-auto px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl lg:text-5xl font-bold text-white mb-6">
+                        Rewards & <span class="gradient-text">Recognition</span>
+                    </h2>
+                    <div class="w-24 h-1 bg-gradient-to-r from-primary to-secondary mx-auto rounded-full mb-8"></div>
+                    <p class="text-lg text-gray-400 max-w-2xl mx-auto mb-8">
+                        Industry recognition and awards for exceptional contributions to data engineering and business solutions
+                    </p>
+                    <a href="https://github.com/ManojKumar-DataTech" target="_blank" rel="noopener noreferrer" 
+                       class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-primary to-secondary text-white font-semibold rounded-xl hover:scale-105 transition-all duration-300 shadow-lg">
+                        <i class="fas fa-trophy mr-2"></i>
+                        View Awards on GitHub
                     </a>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <div class="card p-5 rounded-lg text-center flex flex-col">
-                        <h3 class="text-lg font-bold accent-text">Pinnacle Awards FY25, North Star </h3>
-                        <p class="text-sm text-gray-400 mt-1 flex-grow">Awarded for developing a data analytics solution that significantly improved the client's demand management processes and operational efficiency..</p>
-                        <p class="text-xs text-gray-500 font-semibold mt-2">Accenture - Q1 2025</p>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <!-- Pinnacle Awards -->
+                    <div class="modern-card p-8 text-center group relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-br from-yellow-500/10 to-orange-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        <div class="relative z-10">
+                            <div class="w-20 h-20 bg-gradient-to-br from-yellow-500 to-orange-500 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                                <i class="fas fa-crown text-2xl text-white"></i>
+                            </div>
+                            <div class="inline-block px-4 py-1 bg-yellow-500/20 text-yellow-400 text-sm font-semibold rounded-full mb-4">
+                                <i class="fas fa-star mr-1"></i>Pinnacle Award
+                            </div>
+                            <h3 class="text-xl font-bold text-white mb-4">North Star Excellence</h3>
+                            <p class="text-gray-400 text-sm mb-6 leading-relaxed">
+                                Awarded for developing a data analytics solution that significantly improved the client's demand management processes and operational efficiency.
+                            </p>
+                            <div class="space-y-2">
+                                <div class="flex items-center justify-center text-primary">
+                                    <i class="fas fa-building mr-2"></i>
+                                    <span class="text-sm font-semibold">Accenture</span>
+                                </div>
+                                <div class="text-xs text-gray-500 font-semibold">Q1 2025</div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="card p-5 rounded-lg text-center flex flex-col">
-                        <h3 class="text-lg font-bold accent-text">Client Value Award</h3>
-                        <p class="text-sm text-gray-400 mt-1 flex-grow">Recognized for developing an innovative Power BI dashboard that provided key insights to the client.</p>
-                        <p class="text-xs text-gray-500 font-semibold mt-2">Accenture - Q3 2024</p>
+
+                    <!-- Client Value Award -->
+                    <div class="modern-card p-8 text-center group relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        <div class="relative z-10">
+                            <div class="w-20 h-20 bg-gradient-to-br from-blue-500 to-purple-500 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                                <i class="fas fa-award text-2xl text-white"></i>
+                            </div>
+                            <div class="inline-block px-4 py-1 bg-blue-500/20 text-blue-400 text-sm font-semibold rounded-full mb-4">
+                                <i class="fas fa-medal mr-1"></i>Client Value
+                            </div>
+                            <h3 class="text-xl font-bold text-white mb-4">Innovation Excellence</h3>
+                            <p class="text-gray-400 text-sm mb-6 leading-relaxed">
+                                Recognized for developing an innovative Power BI dashboard that provided key insights to the client and drove business decisions.
+                            </p>
+                            <div class="space-y-2">
+                                <div class="flex items-center justify-center text-primary">
+                                    <i class="fas fa-building mr-2"></i>
+                                    <span class="text-sm font-semibold">Accenture</span>
+                                </div>
+                                <div class="text-xs text-gray-500 font-semibold">Q3 2024</div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="card p-5 rounded-lg text-center flex flex-col">
-                        <h3 class="text-lg font-bold accent-text">Innovation Champion</h3>
-                        <p class="text-sm text-gray-400 mt-1 flex-grow">Awarded for proposing and implementing a new automation workflow using Power Automate.</p>
-                        <p class="text-xs text-gray-500 font-semibold mt-2">Accenture - Q4 2023</p>
+
+                    <!-- Innovation Champion -->
+                    <div class="modern-card p-8 text-center group relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-br from-green-500/10 to-teal-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        <div class="relative z-10">
+                            <div class="w-20 h-20 bg-gradient-to-br from-green-500 to-teal-500 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                                <i class="fas fa-lightbulb text-2xl text-white"></i>
+                            </div>
+                            <div class="inline-block px-4 py-1 bg-green-500/20 text-green-400 text-sm font-semibold rounded-full mb-4">
+                                <i class="fas fa-rocket mr-1"></i>Innovation
+                            </div>
+                            <h3 class="text-xl font-bold text-white mb-4">Automation Champion</h3>
+                            <p class="text-gray-400 text-sm mb-6 leading-relaxed">
+                                Awarded for proposing and implementing a new automation workflow using Power Automate that streamlined business processes.
+                            </p>
+                            <div class="space-y-2">
+                                <div class="flex items-center justify-center text-primary">
+                                    <i class="fas fa-building mr-2"></i>
+                                    <span class="text-sm font-semibold">Accenture</span>
+                                </div>
+                                <div class="text-xs text-gray-500 font-semibold">Q4 2023</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Achievement Stats -->
+                <div class="mt-16 grid grid-cols-1 md:grid-cols-4 gap-8">
+                    <div class="modern-card p-6 text-center">
+                        <div class="w-14 h-14 bg-gradient-to-br from-yellow-500 to-orange-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-trophy text-xl text-white"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-2">3</h3>
+                        <p class="text-gray-400 text-sm">Awards Won</p>
+                    </div>
+                    <div class="modern-card p-6 text-center">
+                        <div class="w-14 h-14 bg-gradient-to-br from-blue-500 to-purple-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-users text-xl text-white"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-2">15+</h3>
+                        <p class="text-gray-400 text-sm">Projects Delivered</p>
+                    </div>
+                    <div class="modern-card p-6 text-center">
+                        <div class="w-14 h-14 bg-gradient-to-br from-green-500 to-teal-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-chart-line text-xl text-white"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-2">40%</h3>
+                        <p class="text-gray-400 text-sm">Efficiency Gain</p>
+                    </div>
+                    <div class="modern-card p-6 text-center">
+                        <div class="w-14 h-14 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-heart text-xl text-white"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-2">100%</h3>
+                        <p class="text-gray-400 text-sm">Client Satisfaction</p>
                     </div>
                 </div>
             </div>
         </section>
         
         <!-- Education Section -->
-        <section id="education" class="py-16 bg-slate-900/50 section-reveal">
-            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center mb-10">
-                    <h2 class="text-3xl font-bold text-white">Education</h2>
+        <section id="education" class="py-20 bg-gradient-to-br from-dark/50 to-darker/50 fade-in-up">
+            <div class="container mx-auto px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl lg:text-5xl font-bold text-white mb-6">
+                        <span class="gradient-text">Education</span> Journey
+                    </h2>
+                    <div class="w-24 h-1 bg-gradient-to-r from-primary to-secondary mx-auto rounded-full mb-8"></div>
+                    <p class="text-lg text-gray-400 max-w-2xl mx-auto">
+                        Academic foundation and continuous learning that shaped my expertise in computer applications and data engineering
+                    </p>
                 </div>
-                <div class="relative max-w-3xl mx-auto">
-                    <div class="border-l-2 border-slate-700 absolute h-full left-3"></div>
-                    <div class="space-y-10">
-						<div class="relative pl-10">
-                            <div class="absolute -left-0.5 top-1 w-6 h-6 accent-bg rounded-full border-4 border-slate-900"></div>
-                            <p class="text-sm font-semibold text-sky-400">2024 - 2026</p>
-                            <h3 class="text-xl font-bold text-white mt-1">Master of Computer Application</h3>
-                            <p class="font-semibold text-gray-500">Chandigarh University</p>
+
+                <div class="max-w-4xl mx-auto">
+                    <!-- Education Timeline -->
+                    <div class="modern-card p-8">
+                        <h3 class="text-2xl font-bold text-white text-center mb-8">
+                            Academic <span class="gradient-text">Timeline</span>
+                        </h3>
+                        <div class="relative">
+                            <div class="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary to-secondary"></div>
+                            <div class="space-y-8">
+                                <div class="flex items-start space-x-6">
+                                    <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center flex-shrink-0">
+                                        <i class="fas fa-graduation-cap text-white"></i>
+                                    </div>
+                                    <div class="flex-1">
+                                        <h4 class="text-lg font-semibold text-white">Master of Computer Application</h4>
+                                        <p class="text-gray-400 text-sm mb-2">Chandigarh University</p>
+                                        <p class="text-gray-500 text-xs">2024 - 2026 • In Progress</p>
+                                        <div class="mt-3 flex flex-wrap gap-2">
+                                            <span class="px-3 py-1 bg-purple-500/20 text-purple-400 text-xs rounded-full">Advanced Programming</span>
+                                            <span class="px-3 py-1 bg-purple-500/20 text-purple-400 text-xs rounded-full">Software Engineering</span>
+                                            <span class="px-3 py-1 bg-purple-500/20 text-purple-400 text-xs rounded-full">Data Science</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex items-start space-x-6">
+                                    <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full flex items-center justify-center flex-shrink-0">
+                                        <i class="fas fa-laptop-code text-white"></i>
+                                    </div>
+                                    <div class="flex-1">
+                                        <h4 class="text-lg font-semibold text-white">Bachelor of Computer Application</h4>
+                                        <p class="text-gray-400 text-sm mb-2">GLA University, Mathura</p>
+                                        <p class="text-gray-500 text-xs">2018 - 2021 • Completed</p>
+                                        <div class="mt-3 flex flex-wrap gap-2">
+                                            <span class="px-3 py-1 bg-blue-500/20 text-blue-400 text-xs rounded-full">Programming</span>
+                                            <span class="px-3 py-1 bg-blue-500/20 text-blue-400 text-xs rounded-full">Database Management</span>
+                                            <span class="px-3 py-1 bg-blue-500/20 text-blue-400 text-xs rounded-full">Web Development</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex items-start space-x-6">
+                                    <div class="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-500 rounded-full flex items-center justify-center flex-shrink-0">
+                                        <i class="fas fa-book text-white"></i>
+                                    </div>
+                                    <div class="flex-1">
+                                        <h4 class="text-lg font-semibold text-white">Higher Secondary School</h4>
+                                        <p class="text-gray-400 text-sm mb-2">Army Public School</p>
+                                        <p class="text-gray-500 text-xs">2016 - 2017 • Completed</p>
+                                        <div class="mt-3 flex flex-wrap gap-2">
+                                            <span class="px-3 py-1 bg-green-500/20 text-green-400 text-xs rounded-full">Computer Science</span>
+                                            <span class="px-3 py-1 bg-green-500/20 text-green-400 text-xs rounded-full">Mathematics</span>
+                                            <span class="px-3 py-1 bg-green-500/20 text-green-400 text-xs rounded-full">Physics</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="relative pl-10">
-                            <div class="absolute -left-0.5 top-1 w-6 h-6 accent-bg rounded-full border-4 border-slate-900"></div>
-                            <p class="text-sm font-semibold text-sky-400">2018 - 2021</p>
-                            <h3 class="text-xl font-bold text-white mt-1">Bachelor of Computer Application</h3>
-                            <p class="font-semibold text-gray-500">GLA University, Mathura</p>
+                    </div>
+
+                    <!-- Education Stats -->
+                    <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <div class="modern-card p-8 text-center">
+                            <div class="w-16 h-16 bg-gradient-to-br from-primary to-secondary rounded-2xl flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-graduation-cap text-2xl text-white"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold text-white mb-2">3</h3>
+                            <p class="text-gray-400">Educational Levels</p>
                         </div>
-                        <div class="relative pl-10">
-                            <div class="absolute -left-0.5 top-1 w-6 h-6 accent-bg rounded-full border-4 border-slate-900"></div>
-                            <p class="text-sm font-semibold text-sky-400">2016 - 2017</p>
-                            <h3 class="text-xl font-bold text-white mt-1">Higher Secondary School</h3>
-                            <p class="font-semibold text-gray-500">Army Public School</p>
+                        <div class="modern-card p-8 text-center">
+                            <div class="w-16 h-16 bg-gradient-to-br from-secondary to-accent rounded-2xl flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-calendar-alt text-2xl text-white"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold text-white mb-2">8+</h3>
+                            <p class="text-gray-400">Years of Education</p>
+                        </div>
+                        <div class="modern-card p-8 text-center">
+                            <div class="w-16 h-16 bg-gradient-to-br from-accent to-primary rounded-2xl flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-certificate text-2xl text-white"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold text-white mb-2">100%</h3>
+                            <p class="text-gray-400">Completion Rate</p>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Projects Section -->
-        <section id="projects" class="py-16 section-reveal">
+        <!-- Certifications & Courses Section -->
+        <section id="certifications-courses" class="py-16 section-reveal">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-10">
-                    <h2 class="text-3xl font-bold text-white">Featured Projects</h2>
+                    <h2 class="text-3xl font-bold text-white">Certifications & Courses</h2>
                     <div class="w-16 h-1 accent-bg mx-auto mt-3 mb-4"></div>
-                    <a href="https://github.com/ManojKumar-DataTech" target="_blank" rel="noopener noreferrer" class="inline-block bg-slate-700 text-white font-semibold px-5 py-2 rounded-md hover:bg-slate-600 transition-colors text-sm shadow-lg">
+                    <p class="text-gray-400 max-w-2xl mx-auto">Continuous learning through professional certifications and specialized courses to stay current with industry trends and technologies.</p>
+                </div>
+                
+                <!-- Nanodegree Programs -->
+                <div class="mb-12">
+                    <h3 class="text-3xl font-bold text-white text-center mb-8">
+                        <span class="gradient-text">Nanodegree</span> Programs
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div class="card p-6 rounded-lg hover:transform hover:scale-105 transition-all duration-300">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+                                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                                    </svg>
+                                </div>
+                                <span class="text-xs bg-green-500 text-white px-2 py-1 rounded-full font-semibold">Completed</span>
+                            </div>
+                            <h4 class="text-lg font-bold text-white mb-2">Data Engineering Nanodegree</h4>
+                            <p class="text-sm text-gray-400 mb-3">Comprehensive program covering data modeling, ETL pipelines, and data warehousing concepts.</p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="text-xs bg-slate-700 text-sky-400 px-2 py-1 rounded">Python</span>
+                                <span class="text-xs bg-slate-700 text-sky-400 px-2 py-1 rounded">SQL</span>
+                                <span class="text-xs bg-slate-700 text-sky-400 px-2 py-1 rounded">ETL</span>
+                                <span class="text-xs bg-slate-700 text-sky-400 px-2 py-1 rounded">Data Modeling</span>
+                            </div>
+                            <p class="text-xs text-gray-500 font-semibold">Udacity • 2023</p>
+                        </div>
+
+                        <div class="card p-6 rounded-lg hover:transform hover:scale-105 transition-all duration-300">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="w-12 h-12 bg-gradient-to-br from-orange-500 to-red-600 rounded-lg flex items-center justify-center">
+                                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                                    </svg>
+                                </div>
+                                <span class="text-xs bg-green-500 text-white px-2 py-1 rounded-full font-semibold">Completed</span>
+                            </div>
+                            <h4 class="text-lg font-bold text-white mb-2">Machine Learning Nanodegree</h4>
+                            <p class="text-sm text-gray-400 mb-3">Advanced machine learning algorithms, model deployment, and real-world applications.</p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="text-xs bg-slate-700 text-sky-400 px-2 py-1 rounded">Python</span>
+                                <span class="text-xs bg-slate-700 text-sky-400 px-2 py-1 rounded">Scikit-learn</span>
+                                <span class="text-xs bg-slate-700 text-sky-400 px-2 py-1 rounded">TensorFlow</span>
+                                <span class="text-xs bg-slate-700 text-sky-400 px-2 py-1 rounded">MLOps</span>
+                            </div>
+                            <p class="text-xs text-gray-500 font-semibold">Udacity • 2023</p>
+                        </div>
+
+                        <div class="card p-6 rounded-lg hover:transform hover:scale-105 transition-all duration-300">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="w-12 h-12 bg-gradient-to-br from-green-500 to-blue-600 rounded-lg flex items-center justify-center">
+                                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                                    </svg>
+                                </div>
+                                <span class="text-xs bg-yellow-500 text-white px-2 py-1 rounded-full font-semibold">In Progress</span>
+                            </div>
+                            <h4 class="text-lg font-bold text-white mb-2">Cloud DevOps Nanodegree</h4>
+                            <p class="text-sm text-gray-400 mb-3">DevOps practices, CI/CD pipelines, and cloud infrastructure management.</p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="text-xs bg-slate-700 text-sky-400 px-2 py-1 rounded">Docker</span>
+                                <span class="text-xs bg-slate-700 text-sky-400 px-2 py-1 rounded">Kubernetes</span>
+                                <span class="text-xs bg-slate-700 text-sky-400 px-2 py-1 rounded">Jenkins</span>
+                                <span class="text-xs bg-slate-700 text-sky-400 px-2 py-1 rounded">AWS</span>
+                            </div>
+                            <p class="text-xs text-gray-500 font-semibold">Udacity • 2024</p>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <!-- Course Highlights -->
+                <div class="mt-12 bg-slate-800/50 rounded-lg p-6 border border-slate-700">
+                    <h3 class="text-xl font-bold text-white text-center mb-6">Learning Highlights</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="text-center">
+                            <div class="text-3xl font-bold text-sky-400 mb-2">15+</div>
+                            <p class="text-sm text-gray-400">Courses Completed</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-3xl font-bold text-sky-400 mb-2">500+</div>
+                            <p class="text-sm text-gray-400">Learning Hours</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-3xl font-bold text-sky-400 mb-2">8</div>
+                            <p class="text-sm text-gray-400">Certifications Earned</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Featured Projects Section -->
+        <section id="projects" class="py-20 fade-in-up">
+            <div class="container mx-auto px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl lg:text-5xl font-bold text-white mb-6">
+                        Featured <span class="gradient-text">Projects</span>
+                    </h2>
+                    <div class="w-24 h-1 bg-gradient-to-r from-primary to-secondary mx-auto rounded-full mb-8"></div>
+                    <p class="text-lg text-gray-400 max-w-2xl mx-auto mb-8">
+                        Innovative data engineering solutions that drive business value and operational efficiency
+                    </p>
+                    <a href="https://github.com/ManojKumar-DataTech" target="_blank" rel="noopener noreferrer" 
+                       class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-primary to-secondary text-white font-semibold rounded-xl hover:scale-105 transition-all duration-300 shadow-lg">
+                        <i class="fab fa-github mr-2"></i>
                         View Projects on GitHub
                     </a>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <div class="card rounded-lg overflow-hidden flex flex-col">
-                        <img src="https://images.unsplash.com/photo-1581094794329-c8112a89af13?q=80&w=2070&auto=format&fit=crop" onerror="this.onerror=null;this.src='https://placehold.co/600x400/0f172a/d1d5db?text=Project+Image';" alt="Retail Analytics" class="w-full h-44 object-cover">
-                        <div class="p-4 flex flex-col flex-grow">
-                            <h3 class="text-md font-bold text-white">ETL Pipeline for Retail Analytics</h3>
-                            <p class="mt-2 text-xs text-gray-400 flex-grow">Automated pipeline processing millions of daily sales records for real-time analytics.</p>
-                            <div class="mt-3">
-                                <button class="ai-project-button w-full bg-slate-700 text-sky-400 font-semibold py-1.5 px-3 rounded-md hover:bg-slate-600 transition-colors text-xs">✨ Elaborate with AI</button>
-                                <div class="ai-loader hidden loader"></div>
-                                <div class="ai-generated-content hidden"></div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <!-- Project 1: ETL Pipeline -->
+                    <div class="modern-card group relative overflow-hidden">
+                        <div class="relative">
+                            <img src="https://images.unsplash.com/photo-1581094794329-c8112a89af13?q=80&w=2070&auto=format&fit=crop" 
+                                 onerror="this.onerror=null;this.src='https://placehold.co/600x400/0f172a/d1d5db?text=ETL+Pipeline';" 
+                                 alt="ETL Pipeline" 
+                                 class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-500">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                            <div class="absolute bottom-4 left-4 right-4">
+                                <span class="inline-block px-3 py-1 bg-blue-500/20 text-blue-400 text-xs font-semibold rounded-full mb-2">
+                                    <i class="fas fa-database mr-1"></i>Data Engineering
+                                </span>
                             </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-white mb-3">ETL Pipeline for Retail Analytics</h3>
+                            <p class="text-gray-400 text-sm mb-4 leading-relaxed">
+                                Automated pipeline processing millions of daily sales records for real-time analytics, improving business decision-making by 40%.
+                            </p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="px-3 py-1 bg-blue-500/20 text-blue-400 text-xs rounded-full">Azure Data Factory</span>
+                                <span class="px-3 py-1 bg-blue-500/20 text-blue-400 text-xs rounded-full">SQL</span>
+                                <span class="px-3 py-1 bg-blue-500/20 text-blue-400 text-xs rounded-full">Power BI</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center text-primary">
+                                    <i class="fas fa-chart-line mr-2"></i>
+                                    <span class="text-sm font-semibold">Real-time Analytics</span>
+                                </div>
+                                <button class="ai-project-button px-4 py-2 bg-gradient-to-r from-primary to-secondary text-white font-semibold rounded-lg hover:scale-105 transition-all duration-300 text-sm">
+                                    <i class="fas fa-magic mr-1"></i>AI Details
+                                </button>
+                            </div>
+                            <div class="ai-loader hidden loader mt-4"></div>
+                            <div class="ai-generated-content hidden mt-4"></div>
                         </div>
                     </div>
-                    <div class="card rounded-lg overflow-hidden flex flex-col">
-                        <img src="https://images.unsplash.com/photo-1556155092-490a1ba16284?q=80&w=2070&auto=format&fit=crop" onerror="this.onerror=null;this.src='https://placehold.co/600x400/0f172a/d1d5db?text=Project+Image';" alt="Insurance Claims" class="w-full h-44 object-cover">
-                        <div class="p-4 flex flex-col flex-grow">
-                            <h3 class="text-md font-bold text-white">Insurance Claims Analysis</h3>
-                            <p class="mt-2 text-xs text-gray-400 flex-grow">Secure analytics on Azure SQL to identify claim patterns and detect potential fraud.</p>
-                             <div class="mt-3">
-                                <button class="ai-project-button w-full bg-slate-700 text-sky-400 font-semibold py-1.5 px-3 rounded-md hover:bg-slate-600 transition-colors text-xs">✨ Elaborate with AI</button>
-                                <div class="ai-loader hidden loader"></div>
-                                <div class="ai-generated-content hidden"></div>
+
+                    <!-- Project 2: Insurance Claims -->
+                    <div class="modern-card group relative overflow-hidden">
+                        <div class="relative">
+                            <img src="https://images.unsplash.com/photo-1556155092-490a1ba16284?q=80&w=2070&auto=format&fit=crop" 
+                                 onerror="this.onerror=null;this.src='https://placehold.co/600x400/0f172a/d1d5db?text=Insurance+Analytics';" 
+                                 alt="Insurance Claims" 
+                                 class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-500">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                            <div class="absolute bottom-4 left-4 right-4">
+                                <span class="inline-block px-3 py-1 bg-purple-500/20 text-purple-400 text-xs font-semibold rounded-full mb-2">
+                                    <i class="fas fa-shield-alt mr-1"></i>Fraud Detection
+                                </span>
                             </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-white mb-3">Insurance Claims Analysis</h3>
+                            <p class="text-gray-400 text-sm mb-4 leading-relaxed">
+                                Secure analytics on Azure SQL to identify claim patterns and detect potential fraud, reducing fraudulent claims by 25%.
+                            </p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="px-3 py-1 bg-purple-500/20 text-purple-400 text-xs rounded-full">Azure SQL</span>
+                                <span class="px-3 py-1 bg-purple-500/20 text-purple-400 text-xs rounded-full">Machine Learning</span>
+                                <span class="px-3 py-1 bg-purple-500/20 text-purple-400 text-xs rounded-full">Power BI</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center text-primary">
+                                    <i class="fas fa-shield-alt mr-2"></i>
+                                    <span class="text-sm font-semibold">Fraud Detection</span>
+                                </div>
+                                <button class="ai-project-button px-4 py-2 bg-gradient-to-r from-primary to-secondary text-white font-semibold rounded-lg hover:scale-105 transition-all duration-300 text-sm">
+                                    <i class="fas fa-magic mr-1"></i>AI Details
+                                </button>
+                            </div>
+                            <div class="ai-loader hidden loader mt-4"></div>
+                            <div class="ai-generated-content hidden mt-4"></div>
                         </div>
                     </div>
-                    <div class="card rounded-lg overflow-hidden flex flex-col">
-                        <img src="https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?q=80&w=1995&auto=format&fit=crop" onerror="this.onerror=null;this.src='https://placehold.co/600x400/0f172a/d1d5db?text=Project+Image';" alt="Customer Segmentation" class="w-full h-44 object-cover">
-                        <div class="p-4 flex flex-col flex-grow">
-                            <h3 class="text-md font-bold text-white">Customer Segmentation with ML</h3>
-                            <p class="mt-2 text-xs text-gray-400 flex-grow">PySpark ML model on Databricks to cluster customers for personalized marketing.</p>
-                             <div class="mt-3">
-                                <button class="ai-project-button w-full bg-slate-700 text-sky-400 font-semibold py-1.5 px-3 rounded-md hover:bg-slate-600 transition-colors text-xs">✨ Elaborate with AI</button>
-                                <div class="ai-loader hidden loader"></div>
-                                <div class="ai-generated-content hidden"></div>
+
+                    <!-- Project 3: Customer Segmentation -->
+                    <div class="modern-card group relative overflow-hidden">
+                        <div class="relative">
+                            <img src="https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?q=80&w=1995&auto=format&fit=crop" 
+                                 onerror="this.onerror=null;this.src='https://placehold.co/600x400/0f172a/d1d5db?text=Customer+Segmentation';" 
+                                 alt="Customer Segmentation" 
+                                 class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-500">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                            <div class="absolute bottom-4 left-4 right-4">
+                                <span class="inline-block px-3 py-1 bg-green-500/20 text-green-400 text-xs font-semibold rounded-full mb-2">
+                                    <i class="fas fa-users mr-1"></i>ML Analytics
+                                </span>
                             </div>
                         </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-white mb-3">Customer Segmentation with ML</h3>
+                            <p class="text-gray-400 text-sm mb-4 leading-relaxed">
+                                PySpark ML model on Databricks to cluster customers for personalized marketing, increasing campaign effectiveness by 35%.
+                            </p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="px-3 py-1 bg-green-500/20 text-green-400 text-xs rounded-full">PySpark</span>
+                                <span class="px-3 py-1 bg-green-500/20 text-green-400 text-xs rounded-full">Databricks</span>
+                                <span class="px-3 py-1 bg-green-500/20 text-green-400 text-xs rounded-full">Machine Learning</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center text-primary">
+                                    <i class="fas fa-users mr-2"></i>
+                                    <span class="text-sm font-semibold">Customer Analytics</span>
+                                </div>
+                                <button class="ai-project-button px-4 py-2 bg-gradient-to-r from-primary to-secondary text-white font-semibold rounded-lg hover:scale-105 transition-all duration-300 text-sm">
+                                    <i class="fas fa-magic mr-1"></i>AI Details
+                                </button>
+                            </div>
+                            <div class="ai-loader hidden loader mt-4"></div>
+                            <div class="ai-generated-content hidden mt-4"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project Stats -->
+                <div class="mt-16 grid grid-cols-1 md:grid-cols-4 gap-8">
+                    <div class="modern-card p-6 text-center">
+                        <div class="w-14 h-14 bg-gradient-to-br from-primary to-secondary rounded-2xl flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-project-diagram text-xl text-white"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-2">15+</h3>
+                        <p class="text-gray-400 text-sm">Projects Delivered</p>
+                    </div>
+                    <div class="modern-card p-6 text-center">
+                        <div class="w-14 h-14 bg-gradient-to-br from-secondary to-accent rounded-2xl flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-chart-line text-xl text-white"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-2">40%</h3>
+                        <p class="text-gray-400 text-sm">Average Efficiency Gain</p>
+                    </div>
+                    <div class="modern-card p-6 text-center">
+                        <div class="w-14 h-14 bg-gradient-to-br from-accent to-primary rounded-2xl flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-users text-xl text-white"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-2">10+</h3>
+                        <p class="text-gray-400 text-sm">Clients Impacted</p>
+                    </div>
+                    <div class="modern-card p-6 text-center">
+                        <div class="w-14 h-14 bg-gradient-to-br from-primary to-secondary rounded-2xl flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-code text-xl text-white"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-2">25+</h3>
+                        <p class="text-gray-400 text-sm">Technologies Used</p>
                     </div>
                 </div>
             </div>
         </section>
         
-        <!-- Contact Section -->
-        <section id="contact" class="py-16 bg-slate-900/50 section-reveal">
-            <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center max-w-2xl">
-                <h2 class="text-3xl font-bold text-white">Let's Connect</h2>
-                <p class="mt-4 text-gray-400">I'm actively seeking new opportunities. Feel free to reach out directly or use the AI assistant to draft an email.</p>
-                
-                <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
-                    <div class="card p-4 rounded-lg">
-                        <h3 class="font-bold text-white">Address</h3>
-                        <p class="text-sky-400 text-sm">Noida, India</p>
-                    </div>
-                     <div class="card p-4 rounded-lg flex flex-col justify-center">
-                        <h3 class="font-bold text-white">Email</h3>
-                        <a href="mailto:kumar.manoj4brat@gmail.com" class="text-sky-400 text-xs hover:underline">kumar.manoj4brat@gmail.com</a>
-                    </div>
-                     <div class="card p-4 rounded-lg">
-                        <h3 class="font-bold text-white">Phone</h3>
-                        <a href="tel:+917456837613" class="text-sky-400 text-sm hover:underline">+91 7456837613</a>
-                    </div>
-                </div>
-                
-                <div class="mt-8 text-left card p-6 rounded-lg">
-                     <label for="idea-input" class="block text-sm font-medium text-gray-300">Have a project in mind?</label>
-                    <div class="mt-1">
-                        <input type="text" id="idea-input" class="w-full p-2.5 bg-slate-800 border border-slate-600 rounded-md shadow-sm focus:ring-sky-500 focus:border-sky-500 text-white" placeholder="Describe your idea here...">
-                    </div>
-                    <button id="ai-draft-button" class="mt-4 w-full bg-sky-500 text-white font-bold py-2.5 px-4 rounded-md hover:bg-sky-600 transition-colors shadow-lg">✨ Draft Email with AI</button>
-                    <div id="draft-loader" class="hidden loader"></div>
+        <!-- Let's Connect Section -->
+        <section id="contact" class="py-20 bg-gradient-to-br from-dark/50 to-darker/50 fade-in-up">
+            <div class="container mx-auto px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl lg:text-5xl font-bold text-white mb-6">
+                        Let's <span class="gradient-text">Connect</span>
+                    </h2>
+                    <div class="w-24 h-1 bg-gradient-to-r from-primary to-secondary mx-auto rounded-full mb-8"></div>
+                    <p class="text-lg text-gray-400 max-w-2xl mx-auto">
+                        I'm actively seeking new opportunities and collaborations. Let's discuss how we can work together to create impactful data solutions.
+                    </p>
                 </div>
 
-                <div class="mt-8 flex justify-center space-x-6">
-                    <a href="https://www.linkedin.com/in/manojkumardata" class="text-gray-500 hover:text-sky-400 transition-colors">
-                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
-                    </a>
-                    <a href="https://github.com/ManojKumar-DataTech" class="text-gray-500 hover:text-sky-400 transition-colors">
-                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.168 6.839 9.49.5.092.682-.217.682-.482 0-.237-.009-.868-.014-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.031-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.378.203 2.398.1 2.651.64.7 1.03 1.595 1.03 2.688 0 3.848-2.338 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.001 10.001 0 0022 12c0-5.523-4.477-10-10-10z"/></svg>
-                    </a>
+                <div class="max-w-6xl mx-auto">
+                    <!-- Contact Information -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+                        <div class="modern-card p-8 text-center group hover:transform hover:scale-105 transition-all duration-300">
+                            <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                                <i class="fas fa-map-marker-alt text-2xl text-white"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-white mb-3">Location</h3>
+                            <p class="text-primary font-semibold">Noida, India</p>
+                            <p class="text-gray-400 text-sm mt-2">Available for remote opportunities</p>
+                        </div>
+
+                        <div class="modern-card p-8 text-center group hover:transform hover:scale-105 transition-all duration-300">
+                            <div class="w-16 h-16 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                                <i class="fas fa-envelope text-2xl text-white"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-white mb-3">Email</h3>
+                            <a href="mailto:kumar.manoj4brat@gmail.com" class="text-primary font-semibold hover:text-white transition-colors">
+                                kumar.manoj4brat@gmail.com
+                            </a>
+                            <p class="text-gray-400 text-sm mt-2">Quick response guaranteed</p>
+                        </div>
+
+                        <div class="modern-card p-8 text-center group hover:transform hover:scale-105 transition-all duration-300">
+                            <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                                <i class="fas fa-phone text-2xl text-white"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-white mb-3">Phone</h3>
+                            <a href="tel:+917456837613" class="text-primary font-semibold hover:text-white transition-colors">
+                                +91 7456837613
+                            </a>
+                            <p class="text-gray-400 text-sm mt-2">Available for calls</p>
+                        </div>
+                    </div>
+
+                    <!-- AI Email Assistant -->
+                    <div class="modern-card p-8 mb-16">
+                        <div class="text-center mb-8">
+                            <div class="w-20 h-20 bg-gradient-to-br from-primary to-secondary rounded-2xl flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-robot text-2xl text-white"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold text-white mb-2">AI Email Assistant</h3>
+                            <p class="text-gray-400">Let AI help you draft a professional email for your project or opportunity</p>
+                        </div>
+                        
+                        <div class="max-w-2xl mx-auto">
+                            <label for="idea-input" class="block text-sm font-medium text-gray-300 mb-3">
+                                <i class="fas fa-lightbulb mr-2"></i>Describe your project or opportunity
+                            </label>
+                            <textarea id="idea-input" rows="4" 
+                                class="w-full p-4 bg-slate-800 border border-slate-600 rounded-xl shadow-sm focus:ring-primary focus:border-primary text-white resize-none"
+                                placeholder="Tell me about your project, requirements, or the opportunity you'd like to discuss..."></textarea>
+                            <button id="ai-draft-button" class="mt-4 w-full btn-gradient">
+                                <i class="fas fa-magic mr-2"></i>✨ Draft Professional Email with AI
+                            </button>
+                            <div id="draft-loader" class="hidden loader mt-4"></div>
+                        </div>
+                    </div>
+
+                    <!-- Social Links -->
+                    <div class="text-center">
+                        <h3 class="text-2xl font-bold text-white mb-8">Connect With Me</h3>
+                        <div class="flex justify-center space-x-8">
+                            <a href="https://www.linkedin.com/in/manojkumardata" 
+                               class="group flex flex-col items-center p-6 modern-card hover:transform hover:scale-105 transition-all duration-300">
+                                <div class="w-16 h-16 bg-gradient-to-br from-blue-600 to-blue-700 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                                    <i class="fab fa-linkedin-in text-2xl text-white"></i>
+                                </div>
+                                <span class="text-white font-semibold">LinkedIn</span>
+                                <span class="text-gray-400 text-sm">Professional Network</span>
+                            </a>
+                            
+                            <a href="https://github.com/ManojKumar-DataTech" 
+                               class="group flex flex-col items-center p-6 modern-card hover:transform hover:scale-105 transition-all duration-300">
+                                <div class="w-16 h-16 bg-gradient-to-br from-gray-700 to-gray-800 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                                    <i class="fab fa-github text-2xl text-white"></i>
+                                </div>
+                                <span class="text-white font-semibold">GitHub</span>
+                                <span class="text-gray-400 text-sm">Code & Projects</span>
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -456,7 +1450,37 @@
     <script>
         document.getElementById('year').textContent = new Date().getFullYear();
 
-        const sections = document.querySelectorAll('.section-reveal');
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Close mobile menu when clicking on links
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Enhanced section animations
+        const sections = document.querySelectorAll('.fade-in-up');
         const sectionObserver = new IntersectionObserver((entries, observer) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -464,8 +1488,74 @@
                     observer.unobserve(entry.target);
                 }
             });
-        }, { threshold: 0.1 });
+        }, { 
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        });
+        
         sections.forEach(section => sectionObserver.observe(section));
+
+        // Skill bars animation
+        const skillBars = document.querySelectorAll('.skill-progress');
+        const skillObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const width = entry.target.style.width;
+                    entry.target.style.width = '0%';
+                    setTimeout(() => {
+                        entry.target.style.width = width;
+                    }, 200);
+                }
+            });
+        }, { threshold: 0.5 });
+        
+        skillBars.forEach(bar => skillObserver.observe(bar));
+
+        // Parallax effect for floating elements
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const parallaxElements = document.querySelectorAll('.floating');
+            
+            parallaxElements.forEach(element => {
+                const speed = 0.5;
+                element.style.transform = `translateY(${scrolled * speed}px)`;
+            });
+        });
+
+        // Header background on scroll
+        const header = document.querySelector('header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                header.classList.add('bg-dark/95');
+            } else {
+                header.classList.remove('bg-dark/95');
+            }
+        });
+
+        // Enhanced Scroll Down Button Functionality
+        const scrollDownBtn = document.getElementById('scroll-down-btn');
+        if (scrollDownBtn) {
+            scrollDownBtn.addEventListener('click', () => {
+                const aboutSection = document.getElementById('about');
+                if (aboutSection) {
+                    aboutSection.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+
+            // Hide scroll indicator after user scrolls down
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 200) {
+                    scrollDownBtn.style.opacity = '0';
+                    scrollDownBtn.style.pointerEvents = 'none';
+                } else {
+                    scrollDownBtn.style.opacity = '1';
+                    scrollDownBtn.style.pointerEvents = 'auto';
+                }
+            });
+        }
 
         async function callGemini(prompt) {
             const apiKey = "";
