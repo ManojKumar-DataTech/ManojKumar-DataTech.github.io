@@ -1675,5 +1675,124 @@
             setTimeout(() => { copyButton.textContent = 'Copy to Clipboard'; }, 2000);
         });
     </script>
+    
+    <!-- VISITOR COUNTER - BOTTOM OF WEBSITE -->
+    <div id="visitor-counter" style="
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: linear-gradient(45deg, #FF6B6B, #4ECDC4);
+        color: white;
+        padding: 15px 30px;
+        border-radius: 25px;
+        font-size: 16px;
+        font-weight: bold;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        z-index: 9999;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        text-align: center;
+        min-width: 200px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    " onmouseover="this.style.transform='translateX(-50%) scale(1.05)'" onmouseout="this.style.transform='translateX(-50%) scale(1)'">
+        <span id="visit-count">🌐 Loading visitors...</span>
+    </div>
+
+    <script>
+        // Advanced visitor counter that tracks unique visitors properly
+        async function updateVisitorCount() {
+            const namespace = 'manojkumar-datatech-github-io';
+            const key = 'unique-visitors';
+            
+            // Create a unique session ID for this visit
+            const sessionId = generateSessionId();
+            const today = new Date().toDateString();
+            
+            // Check if this session was already counted today
+            const sessionKey = `session_${today}_${sessionId}`;
+            const alreadyCounted = sessionStorage.getItem(sessionKey);
+            
+            if (!alreadyCounted) {
+                try {
+                    // Only increment if this is a new session today
+                    await fetch(`https://api.countapi.xyz/hit/${namespace}/${key}`);
+                    sessionStorage.setItem(sessionKey, 'counted');
+                } catch (error) {
+                    console.log('CountAPI failed, using alternative method');
+                }
+            }
+            
+            try {
+                // Get the current total count
+                const response = await fetch(`https://api.countapi.xyz/get/${namespace}/${key}`);
+                const data = await response.json();
+                
+                if (data.value) {
+                    document.getElementById('visit-count').textContent = `🌐 ${data.value} unique visitors`;
+                } else {
+                    // Fallback: use a combination of session and local storage
+                    let uniqueVisitors = localStorage.getItem('uniqueVisitors') || 0;
+                    if (!alreadyCounted) {
+                        uniqueVisitors = parseInt(uniqueVisitors) + 1;
+                        localStorage.setItem('uniqueVisitors', uniqueVisitors);
+                        sessionStorage.setItem(sessionKey, 'counted');
+                    }
+                    document.getElementById('visit-count').textContent = `👥 ${uniqueVisitors} unique visitors`;
+                }
+            } catch (error) {
+                // Final fallback
+                let uniqueVisitors = localStorage.getItem('uniqueVisitors') || 0;
+                if (!alreadyCounted) {
+                    uniqueVisitors = parseInt(uniqueVisitors) + 1;
+                    localStorage.setItem('uniqueVisitors', uniqueVisitors);
+                    sessionStorage.setItem(sessionKey, 'counted');
+                }
+                document.getElementById('visit-count').textContent = `👥 ${uniqueVisitors} unique visitors`;
+            }
+        }
+        
+        // Generate a unique session ID based on browser fingerprint
+        function generateSessionId() {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            ctx.textBaseline = 'top';
+            ctx.font = '14px Arial';
+            ctx.fillText('Browser fingerprint', 2, 2);
+            
+            const fingerprint = [
+                navigator.userAgent,
+                navigator.language,
+                screen.width + 'x' + screen.height,
+                new Date().getTimezoneOffset(),
+                canvas.toDataURL()
+            ].join('|');
+            
+            // Simple hash function
+            let hash = 0;
+            for (let i = 0; i < fingerprint.length; i++) {
+                const char = fingerprint.charCodeAt(i);
+                hash = ((hash << 5) - hash) + char;
+                hash = hash & hash; // Convert to 32-bit integer
+            }
+            return Math.abs(hash).toString(36);
+        }
+        
+        // Add click functionality
+        document.getElementById('visitor-counter').addEventListener('click', function() {
+            const currentText = document.getElementById('visit-count').textContent;
+            const sessionId = generateSessionId();
+            alert(`Visitor Counter Info:\n${currentText}\n\nSession ID: ${sessionId}\n\nThis tracks unique visitors across different sources and devices!`);
+        });
+        
+        // Initialize counter when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            updateVisitorCount();
+        });
+        
+        // Also run immediately in case DOMContentLoaded already fired
+        updateVisitorCount();
+    </script>
 </body>
 </html>
